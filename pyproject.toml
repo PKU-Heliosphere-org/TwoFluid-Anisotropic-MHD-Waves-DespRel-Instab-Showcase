@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "lorelei"
+version = "0.1.0"
+description = ""
+authors = ["Lei Zhang <zhanglei2@qxslab.cn>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
