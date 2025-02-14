@@ -1,14 +1,15 @@
 r"""
     One-fluid, isotropic plasma.
 
-    Here we adhere to 8-quantity description (non-conservative).
+    We do not consider such a thing like a non-zero v0.
 
+    Here we adhere to 8-quantity description (non-conservative).
     They are rho, vx, vy, vz, p_th, Bx, By, Bz.
 """
 from typing import List
-from lorelei.math.vector import e3, unit
+from lorelei.math.vector import cos_theta, e3, unit
 from lorelei.physics.plasma import Plasma
-from numpy import ndarray, array as _array, sqrt, abs, dot, zeros
+from numpy import ndarray, array as _array, sqrt, abs, dot, zeros, empty
 from numpy.linalg import norm
 from functools import cached_property
 
@@ -30,7 +31,7 @@ class AlfvenWave(SinusoidalWave):
         self.phase_init = phase_init
 
     @cached_property
-    def get_omega(self) -> ndarray:
+    def get_omega(self) -> float:
         return self.va * abs(dot(self.k, self.e_b0))
 
     @cached_property
@@ -44,6 +45,73 @@ class AlfvenWave(SinusoidalWave):
         b_v_ratio = b0_norm / self.va
         res[I_VX:I_VZ] = self.e3
         res[I_BX:I_BZ] = (-1.0 if self.is_acute else 1.0) * b_v_ratio * self.e3
+        return res
+
+    @cached_property
+    def get_phase_init(self) -> float:
+        return self.phase_init
+
+    @cached_property
+    def get_k(self) -> ndarray:
+        return self.k
+
+
+class CompressiveWave(SinusoidalWave):
+    def __init__(
+            self,
+            k: ndarray,
+            b0: ndarray,
+            va: float,
+            cs: float,
+            phase_init: float = 0.0,
+            is_slow_mode: bool = True):
+        self.k = k
+        self.b0 = b0
+        self.va = va
+        self.cs = cs
+        self.e_b0 = unit(b0)
+        self.e3 = e3(self.b0, self.k)
+        self.phase_init = phase_init
+        self.is_slow_mode = is_slow_mode
+        self.ek = unit(k)
+
+    @cached_property
+    def cos_theta(self) -> float:
+        return cos_theta(self.b0, self.k)
+
+    @cached_property
+    def get_omega(self) -> float:
+        cs2_plus_va2 = self.cs ** 2 + self.va ** 2
+        cs2_prod_va2 = self.cs ** 2 * self.va ** 2
+        factor = -1.0 if self.is_slow_mode else 1.0
+        return (
+                0.5 * (
+                    cs2_plus_va2 + factor * (
+                        cs2_plus_va2**2 -
+                        4 * cs2_prod_va2 * self.cos_theta**2) ** 0.5)
+            ) ** 0.5
+
+    @cached_property
+    def get_unit_energy_oscillation(self) -> ndarray:
+        res = empty(N_VAR_PLASMA)
+        vp = self.get_omega
+        d_rho_factor = 1.0
+        frac_part = vp / (vp ** 2 - self.cos_theta ** 2 * self.va ** 2)
+        d_v_factor_bracket = (
+            vp ** 2 * self.ek - self.va ** 2 * self.cos_theta * self.e_b0)
+        d_v_factor_bracket_len = norm(d_v_factor_bracket)
+        prefix_coef = 1.0 / (d_v_factor_bracket_len * frac_part)
+        unit_delta_v = prefix_coef * frac_part * d_v_factor_bracket
+        unit_delta_rho = prefix_coef * d_rho_factor
+        unit_delta_p = self.cs ** 2 * unit_delta_rho
+        d_b_factor_bracket = self.b0 / self.va * (
+            self.e_b0 - cos_theta * self.ek)
+        unit_delta_b = prefix_coef * frac_part * d_b_factor_bracket
+        res[I_RHO] = unit_delta_rho
+        res[I_VX:I_VZ] = unit_delta_v
+        res[I_P_TH] = unit_delta_p
+        # What to do?
+        res[I_BX:I_BZ] = unit_delta_b
         return res
 
     @cached_property
@@ -84,4 +152,7 @@ class IsotropicPlasma(Plasma):
         return sqrt(self.gamma_gas * self.p_th0 / self.rho0)
 
     def f_get_wave_modes(self, k) -> List[Wave]:
+        r"""
+            However, we do not include the mode where :math:`\nabla \cdot \delta \mathbf B = 0`.
+        """
         ...

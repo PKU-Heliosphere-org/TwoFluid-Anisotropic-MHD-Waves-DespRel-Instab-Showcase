@@ -2,7 +2,7 @@ r"""
     Vector operations.
 """
 
-from numpy import ndarray, array as _array
+from numpy import ndarray, array as _array, dot
 from numpy.linalg import norm, cross
 
 
@@ -22,3 +22,7 @@ def e3(v1: ndarray, v2: ndarray) -> ndarray:
         else:
             return e3(v1, _array((1.0, 0.0, 0.0)))
     return the_crossed / norm_crossed
+
+
+def cos_theta(a: ndarray, b: ndarray) -> ndarray:
+    return dot(unit(a), unit(b))
