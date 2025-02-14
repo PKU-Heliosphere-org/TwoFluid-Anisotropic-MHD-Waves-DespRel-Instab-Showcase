@@ -151,8 +151,12 @@ class IsotropicPlasma(Plasma):
     def f_get_cs(self) -> float:
         return sqrt(self.gamma_gas * self.p_th0 / self.rho0)
 
-    def f_get_wave_modes(self, k) -> List[Wave]:
+    def f_get_wave_modes(self, k, **kwargs) -> List[Wave]:
         r"""
             However, we do not include the mode where :math:`\nabla \cdot \delta \mathbf B = 0`.
+
+            Therefore we have 7 waves, not 8.
+
+            :param kwargs: To change the default behaviour, set `contain_div_b` as True.
         """
         ...

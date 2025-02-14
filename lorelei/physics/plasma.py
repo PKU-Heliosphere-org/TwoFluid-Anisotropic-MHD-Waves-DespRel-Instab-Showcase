@@ -46,5 +46,5 @@ class Plasma:
             self.b0_norm /
             sqrt(self.f_get_rho0))
 
-    def f_get_wave_modes(self, k: ndarray) -> List[Wave]:
+    def f_get_wave_modes(self, k: ndarray, **kwargs) -> List[Wave]:
         ...
