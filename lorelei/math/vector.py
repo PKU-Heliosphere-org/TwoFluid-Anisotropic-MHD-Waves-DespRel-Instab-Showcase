@@ -26,3 +26,7 @@ def e3(v1: ndarray, v2: ndarray) -> ndarray:
 
 def cos_theta(a: ndarray, b: ndarray) -> ndarray:
     return dot(unit(a), unit(b))
+
+
+def schmidt(v: ndarray, e_base: ndarray) -> ndarray:
+    return v - dot(v, e_base) * e_base
