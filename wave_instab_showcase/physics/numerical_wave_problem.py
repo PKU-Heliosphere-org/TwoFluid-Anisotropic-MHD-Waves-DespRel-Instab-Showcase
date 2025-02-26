@@ -24,7 +24,7 @@ r"""
 from dataclasses import dataclass
 from functools import cached_property
 from numpy import ndarray
-from numpy.linalg import eig
+from numpy.linalg import eig, norm
 from typing import List
 
 from wave_instab_showcase.physics.waves import PlanarWave
@@ -67,7 +67,7 @@ class WaveMode:
 
     def to_planar_wave(self) -> NumericalPlanarWaveOrInstab:
         return NumericalPlanarWaveOrInstab(
-            self.k, self.vp * self.k, self.polarization
+            self.k, self.vp * norm(self.k), self.polarization
         )
 
 
@@ -76,9 +76,9 @@ class NumericalWaveProblem:
         ...
 
     def get_modes(self, k: ndarray) -> List[WaveMode]:
-        the_a = self.get_matrix_big_a
+        the_a = self.get_matrix_big_a(k)
         eig_val, eig_vec_per_column = eig(the_a)
         return [
             WaveMode(k, lambda_i, r_i)
-            for lambda_i, r_i in zip(eig_val, eig_vec_per_column.transpose)
+            for lambda_i, r_i in zip(eig_val, eig_vec_per_column.T)
         ]
