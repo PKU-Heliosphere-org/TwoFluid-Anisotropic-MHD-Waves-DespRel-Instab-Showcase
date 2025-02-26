@@ -20,6 +20,39 @@ N_VAR_PLASMA = 8
 I_RHO, I_VX, I_VY, I_VZ, I_P_TH, I_BX, I_BY, I_BZ = range(N_VAR_PLASMA)
 
 
+class EntropicMode(SinusoidalWave):
+    def __init__(self, k: ndarray, cs: float, phase_init: float = 0.0):
+        self.k = k
+        self.cs = cs
+        self.phase_init = phase_init
+
+    @cached_property
+    def get_omega(self) -> float:
+        return 0.0
+
+    @cached_property
+    def get_unit_energy_oscillation(self) -> ndarray:
+        r"""
+            We would want a perpendicular mode from those modes with :math:`\delta p = c_s^2 \delta \rho`.
+
+            However, that is not even correct in dimensions.
+
+            Therefore we make it simpler.
+        """
+        res = zeros(N_VAR_PLASMA)
+        res[I_RHO] = 1.0
+        res[I_P_TH] = -self.cs ** 2
+        return res
+
+    @cached_property
+    def get_phase_init(self) -> float:
+        return self.phase_init
+
+    @cached_property
+    def get_k(self) -> ndarray:
+        return self.k
+
+
 class AlfvenWave(SinusoidalWave):
     def __init__(
             self, k: ndarray, b0: ndarray, va: float, phase_init: float = 0.0):
@@ -159,4 +192,13 @@ class IsotropicPlasma(Plasma):
 
             :param kwargs: To change the default behaviour, set `contain_div_b` as True.
         """
-        ...
+        # TODO Contain div B.
+        return [
+            EntropicMode(k, self.cs),
+            AlfvenWave(k, self.b0, self.va),
+            AlfvenWave(-k, self.b0, self.va),
+            CompressiveWave(k, self.b0, self.va, self.cs, is_slow_mode=True),
+            CompressiveWave(-k, self.b0, self.va, self.cs, is_slow_mode=True),
+            CompressiveWave(k, self.b0, self.va, self.cs, is_slow_mode=False),
+            CompressiveWave(-k, self.b0, self.va, self.cs, is_slow_mode=False),
+        ]
