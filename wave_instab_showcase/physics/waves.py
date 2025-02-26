@@ -61,7 +61,7 @@ class SinusoidalWave(Wave):
 
         def taker(z: float, x: float) -> ndarray:
             info = f(_array((x, 0.0, z)), 0.0)
-            res = empty(len(i_quan))
+            res = empty(len(list(i_quan)))
             for i, i_info in enumerate(i_quan):
                 res[i] = info[i_info]
             return res

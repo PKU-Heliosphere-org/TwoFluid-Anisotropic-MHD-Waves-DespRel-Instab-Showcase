@@ -100,6 +100,7 @@ class CompressiveWave(PlanarWave):
             is_slow_mode: bool = True):
         self.k = k
         self.b0 = b0
+        self.b0_norm = norm(b0)
         self.va = va
         self.cs = cs
         self.e_b0 = unit(b0)
@@ -137,8 +138,8 @@ class CompressiveWave(PlanarWave):
         unit_delta_v = prefix_coef * frac_part * d_v_factor_bracket
         unit_delta_rho = prefix_coef * d_rho_factor
         unit_delta_p = self.cs ** 2 * unit_delta_rho
-        d_b_factor_bracket = self.b0 / self.va * (
-            self.e_b0 - cos_theta * self.ek)
+        d_b_factor_bracket = self.b0_norm / self.va * (
+            self.e_b0 - self.cos_theta * self.ek)
         unit_delta_b = prefix_coef * frac_part * d_b_factor_bracket
         res[I_RHO] = unit_delta_rho
         res[I_VX:I_VZ+1] = unit_delta_v
