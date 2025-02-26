@@ -7,13 +7,13 @@ r"""
     They are rho, vx, vy, vz, p_th, Bx, By, Bz.
 """
 from typing import List
-from lorelei.math.vector import cos_theta, e3, unit
-from lorelei.physics.plasma import Plasma
+from wave_instab_showcase.math.vector import cos_theta, e3, unit
+from wave_instab_showcase.physics.plasma import Plasma
 from numpy import ndarray, array as _array, sqrt, abs, dot, zeros, empty
 from numpy.linalg import norm
 from functools import cached_property
 
-from lorelei.physics.waves import SinusoidalWave, Wave
+from wave_instab_showcase.physics.waves import SinusoidalWave, Wave
 
 
 N_VAR_PLASMA = 8

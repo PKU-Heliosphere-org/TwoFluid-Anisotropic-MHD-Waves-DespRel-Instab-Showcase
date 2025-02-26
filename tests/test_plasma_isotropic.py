@@ -1,6 +1,6 @@
 import pytest
 
-from lorelei.physics.plasma_isotropic import IsotropicPlasma
+from wave_instab_showcase.physics.plasma_isotropic import IsotropicPlasma
 
 
 def test_default_plasma():

@@ -5,7 +5,7 @@ from numpy import ndarray, sqrt
 from numpy.linalg import norm
 from typing import List
 
-from lorelei.physics.waves import Wave
+from wave_instab_showcase.physics.waves import Wave
 from functools import cached_property
 
 

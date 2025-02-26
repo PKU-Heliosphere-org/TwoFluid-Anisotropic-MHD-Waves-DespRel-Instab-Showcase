@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "lorelei"
+name = "wave_instab_showcase"
 version = "0.1.0"
 description = ""
 authors = ["Lei Zhang <lifeaint1987@hotmail.com>"]

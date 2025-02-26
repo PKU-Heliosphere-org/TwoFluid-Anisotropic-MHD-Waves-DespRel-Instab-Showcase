@@ -3,8 +3,8 @@ r"""
 """
 
 
-from lorelei.math.vector import schmidt, unit
-from lorelei.physics.numerical_wave_problem import NumericalWaveProblem
+from wave_instab_showcase.math.vector import schmidt, unit
+from wave_instab_showcase.physics.numerical_wave_problem import NumericalWaveProblem
 from dataclasses import dataclass
 from numpy import ndarray, dot, zeros
 from numpy.linalg import norm

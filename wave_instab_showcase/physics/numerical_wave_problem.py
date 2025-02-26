@@ -27,7 +27,7 @@ from numpy import ndarray
 from numpy.linalg import eig
 from typing import List
 
-from lorelei.physics.waves import PlanarWave
+from wave_instab_showcase.physics.waves import PlanarWave
 
 
 class NumericalPlanarWaveOrInstab(PlanarWave):
