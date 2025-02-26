@@ -13,14 +13,14 @@ from numpy import ndarray, array as _array, sqrt, abs, dot, zeros, empty
 from numpy.linalg import norm
 from functools import cached_property
 
-from wave_instab_showcase.physics.waves import SinusoidalWave, Wave
+from wave_instab_showcase.physics.waves import PlanarWave, SinusoidalWave, Wave
 
 
 N_VAR_PLASMA = 8
 I_RHO, I_VX, I_VY, I_VZ, I_P_TH, I_BX, I_BY, I_BZ = range(N_VAR_PLASMA)
 
 
-class EntropicMode(SinusoidalWave):
+class EntropicMode(PlanarWave):
     def __init__(self, k: ndarray, cs: float, phase_init: float = 0.0):
         self.k = k
         self.cs = cs
@@ -53,7 +53,7 @@ class EntropicMode(SinusoidalWave):
         return self.k
 
 
-class AlfvenWave(SinusoidalWave):
+class AlfvenWave(PlanarWave):
     def __init__(
             self, k: ndarray, b0: ndarray, va: float, phase_init: float = 0.0):
         self.k = k
@@ -76,8 +76,8 @@ class AlfvenWave(SinusoidalWave):
         res = zeros(N_VAR_PLASMA)
         b0_norm = norm(self.b0)
         b_v_ratio = b0_norm / self.va
-        res[I_VX:I_VZ] = self.e3
-        res[I_BX:I_BZ] = (-1.0 if self.is_acute else 1.0) * b_v_ratio * self.e3
+        res[I_VX:I_VZ+1] = self.e3
+        res[I_BX:I_BZ+1] = (-1.0 if self.is_acute else 1.0) * b_v_ratio * self.e3
         return res
 
     @cached_property
@@ -89,7 +89,7 @@ class AlfvenWave(SinusoidalWave):
         return self.k
 
 
-class CompressiveWave(SinusoidalWave):
+class CompressiveWave(PlanarWave):
     def __init__(
             self,
             k: ndarray,
@@ -141,10 +141,10 @@ class CompressiveWave(SinusoidalWave):
             self.e_b0 - cos_theta * self.ek)
         unit_delta_b = prefix_coef * frac_part * d_b_factor_bracket
         res[I_RHO] = unit_delta_rho
-        res[I_VX:I_VZ] = unit_delta_v
+        res[I_VX:I_VZ+1] = unit_delta_v
         res[I_P_TH] = unit_delta_p
         # What to do?
-        res[I_BX:I_BZ] = unit_delta_b
+        res[I_BX:I_BZ+1] = unit_delta_b
         return res
 
     @cached_property
@@ -194,11 +194,11 @@ class IsotropicPlasma(Plasma):
         """
         # TODO Contain div B.
         return [
-            EntropicMode(k, self.cs),
-            AlfvenWave(k, self.b0, self.va),
-            AlfvenWave(-k, self.b0, self.va),
-            CompressiveWave(k, self.b0, self.va, self.cs, is_slow_mode=True),
-            CompressiveWave(-k, self.b0, self.va, self.cs, is_slow_mode=True),
-            CompressiveWave(k, self.b0, self.va, self.cs, is_slow_mode=False),
-            CompressiveWave(-k, self.b0, self.va, self.cs, is_slow_mode=False),
+            EntropicMode(k, self.f_get_cs),
+            AlfvenWave(k, self.b0, self.f_get_va),
+            AlfvenWave(-k, self.b0, self.f_get_va),
+            CompressiveWave(k, self.b0, self.f_get_va, self.f_get_cs, is_slow_mode=True),
+            CompressiveWave(-k, self.b0, self.f_get_va, self.f_get_cs, is_slow_mode=True),
+            CompressiveWave(k, self.b0, self.f_get_va, self.f_get_cs, is_slow_mode=False),
+            CompressiveWave(-k, self.b0, self.f_get_va, self.f_get_cs, is_slow_mode=False),
         ]
