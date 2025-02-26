@@ -2,8 +2,8 @@ r"""
     Vector operations.
 """
 
-from numpy import ndarray, array as _array, dot
-from numpy.linalg import norm, cross
+from numpy import ndarray, array as _array, dot, cross
+from numpy.linalg import norm
 
 
 def unit(v: ndarray) -> ndarray:
