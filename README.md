@@ -38,3 +38,29 @@ pytest -s .
 ```
 
 ## User Interface / Uzanta Interfaco / 用户界面
+
+Currently we use Jupyter notebooks for showing the functions and providing programming examples. The notebooks are located under `notebooks` directory.
+
+Nun ni uzas Jupiter kvaterojn pro montri la functiojn kaj doni egzemplojn de programi. La kvateroj troviĝas en dosiero `notebooks`.
+
+本软件包目前使用 Jupyter 笔记本提供用户界面，并给出编程示例。这些笔记本文件存放在 `notebooks` 目录中。
+
+### Using vscode / Uzante vscode / 使用 vscode
+
+Vscode recognizes the virtual environment you use. For a better experience, you might consider run it with the Jupyter plugin. Then just open the codebase directory in your vscode, and open the notebook file therein.
+
+Vscode scias la venv-on kiun vi uzas. Por uzi ĝin pli bone, estus facile funktionigi uzante `Jupyter` aldonaĵon. Poste, malfermu la dosieron en vscode, kaj malfermu la kvateron.
+
+Vscode 可识别虚拟环境。为增强使用体验，可使用 Jupyter 扩展。装好后，在打开本软件包目录的 vscode 窗口中打开相应文件即可。
+
+### Using Jupyter server / Uzante 'Jupyter' servilo / 使用 Jupyter 服务
+
+You just serve it with
+
+Oni nur bezonas
+
+运行以下命令即可
+
+```bash
+  jupyter notebook filename.ipynb
+```
