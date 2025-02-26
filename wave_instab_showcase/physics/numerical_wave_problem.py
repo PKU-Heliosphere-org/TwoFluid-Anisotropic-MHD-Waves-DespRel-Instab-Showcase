@@ -82,3 +82,8 @@ class NumericalWaveProblem:
             WaveMode(k, lambda_i, r_i)
             for lambda_i, r_i in zip(eig_val, eig_vec_per_column.T)
         ]
+
+    def eig_vals(self, k: ndarray) -> ndarray:
+        the_a = self.get_matrix_big_a(k)
+        eig_val, _ = eig(the_a)
+        return eig_val

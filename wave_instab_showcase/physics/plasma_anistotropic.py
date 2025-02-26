@@ -84,14 +84,14 @@ class TwoComponentAnisotropicPlasma(NumericalWaveProblem):
         res[self.I_B3, self.I_V3] = -self.b0_norm * k_para
         # delta p e parallel line
         res[self.I_P_E_PARA, self.I_RHO] = self.b02_e_beta_gamma_para_half * k_para
-        res[self.I_P_E_PARA, self.I_V_PARA] = self.b02_beta_e_para_half * k_para
-        # delta p e prep line
-        res[self.I_P_E_PERP, self.I_RHO] = self.b02_e_beta_gamma_perp_half * k_perp
-        res[self.I_P_E_PERP, self.I_V_PARA] = self.b02_beta_e_perp_half * k_perp
+        res[self.I_P_E_PARA, self.I_V_PARA] = self.b02_beta_e_para_half * k_perp
         # delta p i parallel line
         res[self.I_P_I_PARA, self.I_RHO] = self.b02_i_beta_gamma_para_half * k_para
-        res[self.I_P_I_PARA, self.I_V_PARA] = self.b02_beta_i_para_half * k_para
+        res[self.I_P_I_PARA, self.I_V_PARA] = self.b02_beta_i_para_half * k_perp
+        # delta p e prep line
+        res[self.I_P_E_PERP, self.I_RHO] = self.b02_beta_e_perp_half * k_para
+        res[self.I_P_E_PERP, self.I_V_PARA] = self.b02_e_beta_gamma_perp_half * k_perp
         # delta p i prep line
-        res[self.I_P_I_PERP, self.I_RHO] = self.b02_i_beta_gamma_perp_half * k_perp
-        res[self.I_P_I_PERP, self.I_V_PARA] = self.b02_beta_i_perp_half * k_perp
+        res[self.I_P_I_PERP, self.I_RHO] = self.b02_beta_i_perp_half * k_para
+        res[self.I_P_I_PERP, self.I_V_PARA] = self.b02_i_beta_gamma_perp_half * k_perp
         return res
