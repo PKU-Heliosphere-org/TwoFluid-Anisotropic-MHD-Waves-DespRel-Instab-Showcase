@@ -64,3 +64,7 @@ Oni nur bezonas
 ```bash
   jupyter notebook filename.ipynb
 ```
+
+### Contact Info /联系信息
+Dr. Lei ZHANG: beatlesfan1987@gmail.com
+Dr. Jiansen HE: jshept@gmail.com
