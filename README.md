@@ -67,7 +67,8 @@ Oni nur bezonas
 
 ### Reference Note / 参考文献
 
-If you intend to utilize this package for scientific research and publish papers, kindly include the citation of the following reference:
+If you intend to utilize this package for scientific research and publish papers, please kindly include the citation of the following reference:
+
 Zhang, L., He, J., Zhao, J., Yao, S., & Feng, X. (2018). Nature of magnetic holes above ion scales: a mixture of stable slow magnetosonic and unstable mirror modes in a double-polytropic scenario? The Astrophysical Journal, 864(1), 35.
 
 
