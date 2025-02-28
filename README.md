@@ -65,6 +65,12 @@ Oni nur bezonas
   jupyter notebook filename.ipynb
 ```
 
+### Reference Note / 参考文献
+
+If you intend to utilize this package for scientific research and publish papers, kindly include the citation of the following reference:
+Zhang, L., He, J., Zhao, J., Yao, S., & Feng, X. (2018). Nature of magnetic holes above ion scales: a mixture of stable slow magnetosonic and unstable mirror modes in a double-polytropic scenario? The Astrophysical Journal, 864(1), 35.
+
+
 ### Contact Info /联系信息
 Dr. Lei ZHANG: beatlesfan1987@gmail.com
 
